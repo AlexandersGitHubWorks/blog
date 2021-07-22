@@ -14,5 +14,22 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    $files = scandir(__DIR__ . "/../resources/posts");
+    $files = array_diff($files, ['.', '..']);
+
+    foreach ($files as $file) {
+        $posts[] = file_get_contents(__DIR__ . "/../resources/posts/$file");
+    }
+
+    return view('posts', compact('posts'));
 });
+
+Route::get('/post/{slug}', function ($slug) {
+    if (! file_exists($file = __DIR__ . "/../resources/posts/$slug.html")) {
+        return redirect('/');
+    }
+
+    $post = cache()->remember("post.{$slug}", now()->addMinute(), fn() => file_get_contents($file));
+
+    return view('post', compact('post'));
+})->where('slug', '[A-z_\-]+');
