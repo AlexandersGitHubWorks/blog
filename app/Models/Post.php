@@ -30,9 +30,8 @@ class Post
     {
         $posts = collect(File::files(resource_path('posts')))
             ->map(function ($file) {
-                return YamlFrontMatter::parseFile($file);
-            })
-            ->map(function ($document) {
+                $document = YamlFrontMatter::parseFile($file);
+
                 return new Post(
                     $document->title,
                     $document->excerpt,
@@ -40,7 +39,8 @@ class Post
                     $document->slug,
                     $document->date
                 );
-            });
+            })
+            ->sortByDesc('date');
 
         return cache()->remember('posts', now()->addMinute(), fn() => $posts);
     }
