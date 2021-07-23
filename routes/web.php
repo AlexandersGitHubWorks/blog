@@ -23,6 +23,6 @@ Route::get('/', function (FileReaderContract $fileReader) {
 
 Route::get('/post/{slug}', function ($slug) {
     return view('post', [
-        'post' => Post::find($slug)
+        'post' => Post::findOrFail($slug)
     ]);
-})->where('slug', '[A-z_\-]+');
+});
