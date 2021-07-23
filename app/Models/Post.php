@@ -2,8 +2,7 @@
 
 namespace App\Models;
 
-use Illuminate\Support\Facades\File;
-use Spatie\YamlFrontMatter\YamlFrontMatter;
+use App\Services\Contracts\FileReaderContract;
 
 class Post
 {
@@ -26,21 +25,9 @@ class Post
         $this->date = $date;
     }
 
-    public static function all()
+    public static function all(FileReaderContract $fileReader)
     {
-        $posts = collect(File::files(resource_path('posts')))
-            ->map(function ($file) {
-                $document = YamlFrontMatter::parseFile($file);
-
-                return new Post(
-                    $document->title,
-                    $document->excerpt,
-                    $document->body(),
-                    $document->slug,
-                    $document->date
-                );
-            })
-            ->sortByDesc('date');
+        $posts = $fileReader->read('posts')->sortByDesc('date');
 
         return cache()->remember('posts', now()->addMinute(), fn() => $posts);
     }

@@ -2,6 +2,7 @@
 
 use App\Models\Post;
 use Illuminate\Support\Facades\Route;
+use App\Services\Contracts\FileReaderContract;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,9 +15,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
+Route::get('/', function (FileReaderContract $fileReader) {
     return view('posts', [
-        'posts' => Post::all()
+        'posts' => Post::all($fileReader)
     ]);
 });
 
