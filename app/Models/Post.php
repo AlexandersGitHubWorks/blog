@@ -11,7 +11,7 @@ class Post extends Model
 
     protected $guarded = [];
 
-    protected $with = ['category'];
+    protected $with = ['author', 'category'];
 
     public function category()
     {

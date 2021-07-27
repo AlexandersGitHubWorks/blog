@@ -9,10 +9,7 @@
                 </a>
             </h1>
 
-            <div>
-                by <a href="/user/{{ $post->author->id }}">{{ $post->author->name }}</a>
-                in <a href="/category/{{ $post->category->slug }}">{{ $post->category->name }}</a>
-            </div>
+            @include('components.posts.metadata')
 
             <div>
                 <p>{{ $post->excerpt }}</p>
