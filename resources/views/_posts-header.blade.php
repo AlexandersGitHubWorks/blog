@@ -9,19 +9,19 @@
             <x-dropdown>
                 <x-slot name="trigger">
                     <button class="py-2 pl-3 pr-9 text-sm font-semibold w-full lg:w-32 text-left flex lg:inline-flex">
-                        {{ isset($currentCategory) ? ucwords($currentCategory->name) : 'Categories' }}
+                        {{ ucwords($currentCategory->name ?? 'Categories') }}
 
                         <x-icon name="arrow-down" class="absolute pointer-events-none" style="right: 12px;" />
                     </button>
                 </x-slot>
 
                 <x-slot name="slot">
-                    <x-dropdown-item href="/" :active="request()->routeIs('home')">All</x-dropdown-item>
+                    <x-dropdown-item href="/" :active='empty(request()->query("category"))'>All</x-dropdown-item>
 
                     @foreach($categories as $category)
                         <x-dropdown-item
-                            href="{{ route('category', $category->slug) }}"
-                            :active='request()->is("*/{$category->slug}")'
+                            href="{{ route('home', ['category' => $category->slug]) }}"
+                            :active='request("category") == $category->slug'
                         >{{ ucfirst($category->name) }}</x-dropdown-item>
                     @endforeach
                 </x-slot>
@@ -53,7 +53,8 @@
         <!-- Search -->
         <div class="relative flex lg:inline-flex items-center bg-gray-100 rounded-xl px-3 py-2">
             <form method="GET">
-                <input type="text" name="search"
+                <input type="text"
+                       name="search"
                        value="{{ request('search') }}"
                        placeholder="Find something"
                        class="bg-transparent placeholder-black font-semibold text-sm"
