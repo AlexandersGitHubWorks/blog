@@ -26,13 +26,11 @@ class PostFactory extends Factory
     {
         $title = $this->faker->sentence();
 
-        $sentence = $this->faker->sentence(50);
-
         return [
             'title'       => $title,
             'slug'        => Str::kebab($title),
-            'body'        => "<p>{$sentence}</p>",
-            'excerpt'     => Str::words($sentence, 10),
+            'body'        => '<p>' . implode('</p><p>', $this->faker->paragraphs(5)) . '</p>',
+            'excerpt'     => '<p>' . implode('</p><p>', $this->faker->paragraphs(2)) . '</p>',
             'user_id'     => User::factory(),
             'category_id' => Category::factory(),
         ];
