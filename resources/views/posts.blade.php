@@ -1,19 +1,9 @@
-@extends('layouts.app')
+<x-app>
+    @include('_posts-header')
 
-@section('content')
-    @foreach($posts as $post)
-        <article>
-            <h1>
-                <a href="/post/{{ $post->slug }}">
-                    {{ $post->title }}
-                </a>
-            </h1>
-
-            @include('components.posts.metadata')
-
-            <div>
-                <p>{{ $post->excerpt }}</p>
-            </div>
-        </article>
-    @endforeach
-@endsection
+    <main class="max-w-6xl mx-auto mt-6 lg:mt-20 space-y-6">
+        @isset($posts)
+            <x-posts-grid :posts="$posts"/>
+        @endisset
+    </main>
+</x-app>
