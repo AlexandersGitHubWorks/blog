@@ -14,25 +14,20 @@
         <div class="mt-8 flex flex-col justify-between">
             <header>
                 <div class="space-x-2">
-                    <a href="{{ $post->category->slug }}"
-                       class="px-3 py-1 border border-blue-300 rounded-full text-blue-300 text-xs uppercase font-semibold"
-                       style="font-size: 10px"
-                    >
-                        {{ $post->category->name }}
-                    </a>
+                    <x-category-button :category="$post->category"/>
                 </div>
 
                 <div class="mt-4">
                     <h1 class="text-3xl">{{ $post->title }}</h1>
 
                     <span class="mt-2 block text-gray-400 text-xs">
-                        Published <time>{{ $post->created_at->diffForHumans() }}</time>
+                        Published <time>{{ $post->readableTime() }}</time>
                     </span>
                 </div>
             </header>
 
             <div class="text-sm mt-4">
-                {!! $post->body !!}
+                <p>{{ $post->excerpt }}</p>
 
                 <p class="mt-4">
                     Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
