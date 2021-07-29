@@ -34,6 +34,10 @@
         <!-- Search -->
         <div class="relative flex lg:inline-flex items-center bg-gray-100 rounded-xl px-3 py-2">
             <form method="GET">
+                @foreach(request()->except('search') as $name => $value)
+                    <input type="hidden" name="{{ $name }}" value="{{ $value }}">
+                @endforeach
+
                 <input type="text"
                        name="search"
                        value="{{ request('search') }}"

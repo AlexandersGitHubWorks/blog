@@ -3,7 +3,7 @@
         <button class="py-2 pl-3 pr-9 text-sm font-semibold w-full lg:w-32 text-left flex lg:inline-flex">
             {{ ucwords($currentCategory->name ?? 'Categories') }}
 
-            <x-icon name="arrow-down" class="absolute pointer-events-none" style="right: 12px;" />
+            <x-icon name="arrow-down" class="absolute pointer-events-none" style="right: 12px;"/>
         </button>
     </x-slot>
 
@@ -12,7 +12,7 @@
 
         @foreach($categories as $category)
             <x-dropdown-item
-                    href="{{ route('home', ['category' => $category->slug]) }}"
+                    href="{{ request()->fullUrlWithQuery(['category' => $category->slug]) }}"
                     :active='request("category") == $category->slug'
             >{{ ucfirst($category->name) }}</x-dropdown-item>
         @endforeach
