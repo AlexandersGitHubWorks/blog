@@ -21,17 +21,23 @@ class DatabaseSeeder extends Seeder
             'username' => 'john',
         ]);
 
-        Post::factory(5)->create([
-            'user_id' => $john->id,
-        ]);
-
         $hanna = User::factory()->create([
             'name'     => 'Hanna Smith',
             'username' => 'hanna',
         ]);
 
-        Post::factory(2)->create([
+        Post::factory(10)->create([
+            'user_id' => $john->id,
+        ]);
+
+        Post::factory(12)->create([
             'user_id' => $hanna->id,
         ]);
+
+        Category::all()->map(function ($category) {
+            Post::factory(2)->create([
+                'category_id' => $category->id
+            ]);
+        });
     }
 }

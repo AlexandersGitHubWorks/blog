@@ -10,9 +10,11 @@
     <x-slot name="slot">
         <x-dropdown-item href="/" :active='empty(request()->query("category"))'>All</x-dropdown-item>
 
+        @php($httpQueries = request()->except('category', 'page'))
+
         @foreach($categories as $category)
             <x-dropdown-item
-                    href="{{ request()->fullUrlWithQuery(['category' => $category->slug]) }}"
+                    href="{{ route('home', array_merge(['category' => $category->slug], $httpQueries)) }}"
                     :active='request("category") == $category->slug'
             >{{ ucfirst($category->name) }}</x-dropdown-item>
         @endforeach
