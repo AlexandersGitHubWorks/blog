@@ -19,8 +19,22 @@
             </a>
         </div>
 
-        <div class="mt-8 md:mt-0">
-            <a href="/" class="text-xs font-bold uppercase">Home Page</a>
+        <div class="mt-8 md:mt-0 flex items-center">
+            @auth
+                <span class="text-xs font-bold uppercase">Welcome, {{ auth()->user()->name }}!</span>
+
+                <form method="POST" action="{{ route('logout') }}"
+                      class="inline-flex ml-3"
+                >
+                    @csrf
+
+                    <button type="submit" class="text-xs font-bold uppercase">Log Out</button>
+                </form>
+            @else
+                <a href="{{ route('login.show') }}" class="text-xs font-bold uppercase mr-3">Login</a>
+
+                <a href="{{ route('register.show') }}" class="text-xs font-bold uppercase">Register</a>
+            @endauth
 
             <a href="#" class="bg-blue-500 ml-3 rounded-full text-xs font-semibold text-white uppercase py-3 px-5">
                 Subscribe for Updates
@@ -57,6 +71,8 @@
             </div>
         </div>
     </footer>
+
+    <x-flash/>
 </section>
 </body>
 </html>
