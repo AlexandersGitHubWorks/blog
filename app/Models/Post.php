@@ -23,6 +23,11 @@ class Post extends Model
         return $this->belongsTo(User::class, 'user_id');
     }
 
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
+    }
+
     public function readableTime()
     {
         return $this->created_at->diffForHumans();

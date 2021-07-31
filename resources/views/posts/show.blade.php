@@ -6,7 +6,8 @@
                 <img src="/images/illustration-1.png" alt="" class="rounded-xl">
 
                 <p class="mt-4 block text-gray-400 text-xs">
-                    Published <time>{{ $post->readableTime() }}</time>
+                    Published
+                    <time>{{ $post->readableTime() }}</time>
                 </p>
 
                 <div class="flex items-center lg:justify-center text-sm mt-4">
@@ -53,6 +54,14 @@
                     {!! $post->body !!}
                 </div>
             </div>
+
+            <section class="col-span-8 col-start-5 mt-10 space-y-6">
+                @include('posts._comment-form')
+
+                @foreach($post->comments as $comment)
+                    <x-post-comment :comment="$comment"/>
+                @endforeach
+            </section>
         </article>
     </main>
 </x-app>

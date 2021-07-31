@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Category;
+use App\Models\Comment;
 use App\Models\Post;
 use Illuminate\Database\Seeder;
 use \App\Models\User;
@@ -36,8 +37,12 @@ class DatabaseSeeder extends Seeder
 
         Category::all()->map(function ($category) {
             Post::factory(2)->create([
-                'category_id' => $category->id
+                'category_id' => $category->id,
             ]);
         });
+
+        Comment::factory(7)->create([
+            'post_id' => Post::latest()->first(),
+        ]);
     }
 }
