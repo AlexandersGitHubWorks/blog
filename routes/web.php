@@ -1,6 +1,12 @@
 <?php
 
-use App\Http\Controllers\{PostCommentController, PostController, SessionController, RegisterController};
+use App\Http\Controllers\{
+    NewsletterController,
+    PostCommentController,
+    PostController,
+    SessionController,
+    RegisterController
+};
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -27,3 +33,5 @@ Route::middleware('guest')->group(function () {
 });
 
 Route::post('/logout', [SessionController::class, 'destroy'])->middleware('auth')->name('logout');
+
+Route::post('/newsletter', NewsletterController::class);
