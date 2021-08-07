@@ -7,8 +7,7 @@
 >
     <div class="py-6 px-5">
         <div>
-            {{--TODO--}}
-            <img src="/images/illustration-2.png" alt="Blog Post illustration" class="rounded-xl">
+            <img src="{{ $post->thumbnail }}" alt="{{ $post->title }}" class="rounded-xl">
         </div>
 
         <div class="mt-8 flex flex-col justify-between">

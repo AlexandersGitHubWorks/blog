@@ -33,6 +33,7 @@ class PostFactory extends Factory
             'excerpt'     => '<p>' . implode('</p><p>', $this->faker->paragraphs(2)) . '</p>',
             'user_id'     => User::factory(),
             'category_id' => Category::factory(),
+            'thumbnail'   => '/images/illustration-' . rand(1,5) . '.png',
         ];
     }
 }

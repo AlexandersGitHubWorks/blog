@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Str;
 
 class Post extends Model
 {
@@ -13,6 +15,11 @@ class Post extends Model
 
     protected $with = ['author', 'category'];
 
+    /*
+    |--------------------------------------------------------------------------
+    | Relationships
+    |--------------------------------------------------------------------------
+    */
     public function category()
     {
         return $this->belongsTo(Category::class);
@@ -28,11 +35,21 @@ class Post extends Model
         return $this->hasMany(Comment::class);
     }
 
+    /*
+    |--------------------------------------------------------------------------
+    | Helpers
+    |--------------------------------------------------------------------------
+    */
     public function readableTime()
     {
         return $this->created_at->diffForHumans();
     }
 
+    /*
+    |--------------------------------------------------------------------------
+    | Scopes
+    |--------------------------------------------------------------------------
+    */
     public function scopeFilter($query, array $filters)
     {
         $query->when($filters['search'] ?? false, function ($query, $search) {
@@ -49,6 +66,46 @@ class Post extends Model
 
         $query->when($filters['author'] ?? false, function ($query, $author) {
             $query->whereHas('author', fn($query) => $query->where('username', $author));
+        });
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Accessors & Mutators
+    |--------------------------------------------------------------------------
+    */
+    public function setTitleAttribute($title)
+    {
+        $slug = Str::slug($title);
+
+        if ($existedPosts = Post::where('slug', 'like', "$slug%")->count()) {
+            $slug .= $existedPosts;
+        }
+
+        $this->attributes['slug'] = $slug;
+        $this->attributes['title'] = $title;
+    }
+
+    public function setThumbnailAttribute($value)
+    {
+        // Make constant forward directory separator in thumbnail path
+        $this->attributes['thumbnail'] = DIRECTORY_SEPARATOR . ltrim($value, DIRECTORY_SEPARATOR);
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Model Events
+    |--------------------------------------------------------------------------
+    */
+    protected static function booted()
+    {
+        static::deleted(function ($post) {
+            // Delete thumbnail of post if the post is deleted
+            $path = public_path("/storage/{$post->thumbnail}");
+
+            if (File::exists($path)) {
+                File::delete($path);
+            }
         });
     }
 }
