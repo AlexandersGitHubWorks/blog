@@ -14,7 +14,7 @@ Route::get('/post/{post:slug}', [PostController::class, 'show'])->name('post');
 Route::post('/post/{post:slug}/comment', [PostCommentController::class, 'store'])->middleware('auth')->name('comment.store');
 
 Route::prefix('/admin')->middleware('admin')->group(function () {
-    Route::get('/post/create', [PostController::class, 'create']);
+    Route::get('/post/create', [PostController::class, 'create'])->name('post.create');
     Route::post('/post/store', [PostController::class, 'store'])->name('post.store');
 });
 

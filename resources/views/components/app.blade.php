@@ -26,15 +26,23 @@
 
         <div class="mt-8 md:mt-0 flex items-center">
             @auth
-                <span class="text-xs font-bold uppercase">Welcome, {{ auth()->user()->name }}!</span>
+                <x-dropdown>
+                    <x-slot name="trigger">
+                        <span class="text-xs font-bold uppercase">Welcome, {{ auth()->user()->name }}!</span>
+                    </x-slot>
 
-                <form method="POST" action="{{ route('logout') }}"
-                      class="inline-flex ml-3"
-                >
-                    @csrf
+                    <x-dropdown-item>Dashboard</x-dropdown-item>
+                    <x-dropdown-item href="{{ route('post.create') }}" :active="request()->routeIs('post.create')">
+                        Add Post
+                    </x-dropdown-item>
+                    <x-dropdown-item @click.prevent="document.getElementById('logout-form').submit()">
+                        Log Out
+                    </x-dropdown-item>
 
-                    <button type="submit" class="text-xs font-bold uppercase">Log Out</button>
-                </form>
+                    <form method="POST" action="{{ route('logout') }}" id="logout-form" class="hidden">
+                        @csrf
+                    </form>
+                </x-dropdown>
             @else
                 <a href="{{ route('login.show') }}" class="text-xs font-bold uppercase mr-3">Login</a>
 

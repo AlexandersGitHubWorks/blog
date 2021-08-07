@@ -1,5 +1,6 @@
-<div x-data="{ open: false }" @click.away="open = false">
+<div x-data="{ open: false }" @click.away="open = false" class="relative cursor-pointer">
 
+    {{--Trigger--}}
     <div @click="open = !open">
         {{ $trigger }}
     </div>

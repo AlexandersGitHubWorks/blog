@@ -1,5 +1,5 @@
 <x-app>
-    <section class="m-auto max-w-md border border-gray-200 rounded p-12">
+    <x-setting heading="Create New Post">
         <form method="POST" action="{{ route('post.store') }}" enctype="multipart/form-data">
             @csrf
 
@@ -11,5 +11,5 @@
 
             <x-form.button>Publish</x-form.button>
         </form>
-    </section>
+    </x-setting>
 </x-app>

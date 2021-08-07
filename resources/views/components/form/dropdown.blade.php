@@ -4,7 +4,7 @@
     <x-form.label name="{{ $name }}" label="{{ $label }}"/>
 
     <select name="{{ $name }}"
-            class="border border-gray-400 p-3 w-full text-sm"
+            class="border border-gray-200 p-3 w-full text-sm rounded"
     >
         @foreach($items as $item)
             <option
