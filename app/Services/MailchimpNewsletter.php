@@ -14,7 +14,7 @@ class MailchimpNewsletter implements Newsletter
         $this->client = $apiClient->setConfig([
             'apiKey' => config('services.mailchimp.key'),
             'server' => config('services.mailchimp.prefix'),
-        ]);;
+        ]);
     }
 
     public function subscribe(string $email, string $list = null)
