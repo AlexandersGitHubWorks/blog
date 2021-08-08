@@ -1,4 +1,4 @@
-@props(['name', 'items', 'inputValue' => 'id', 'inputName' => 'name', 'label' => $name])
+@props(['name', 'items', 'inputValue' => 'id', 'inputName' => 'name', 'label' => $name, 'selected' => false])
 
 <x-form.field>
     <x-form.label name="{{ $name }}" label="{{ $label }}"/>
@@ -8,7 +8,7 @@
             @foreach($items as $item)
                 <option
                     value="{{ $item->{$inputValue} }}"
-                    {{ old('category_id') == $item->{$inputValue} ? 'selected' : '' }}
+                    {{ old($name, $selected) == $item->{$inputValue} ? 'selected' : '' }}
                 >{{ $item->{$inputName} }}</option>
             @endforeach
         </select>

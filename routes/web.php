@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\{
+    AdminPostController,
     NewsletterController,
     PostCommentController,
     PostController,
@@ -11,11 +12,17 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [PostController::class, 'index'])->name('home');
 Route::get('/post/{post:slug}', [PostController::class, 'show'])->name('post');
-Route::post('/post/{post:slug}/comment', [PostCommentController::class, 'store'])->middleware('auth')->name('comment.store');
+Route::post('/post/{post:slug}/comment', [PostCommentController::class, 'store'])
+    ->middleware('auth')
+    ->name('comment.store');
 
 Route::prefix('/admin')->middleware('admin')->group(function () {
-    Route::get('/post/create', [PostController::class, 'create'])->name('post.create');
-    Route::post('/post/store', [PostController::class, 'store'])->name('post.store');
+    Route::get('/dashboard', [AdminPostController::class, 'index'])->name('dashboard');
+    Route::get('/post/create', [AdminPostController::class, 'create'])->name('post.create');
+    Route::post('/post/store', [AdminPostController::class, 'store'])->name('post.store');
+    Route::get('/post/{post}/edit', [AdminPostController::class, 'edit'])->name('post.edit');
+    Route::patch('/post/{post}', [AdminPostController::class, 'update'])->name('post.update');
+    Route::delete('/post/{post}', [AdminPostController::class, 'destroy'])->name('post.destroy');
 });
 
 Route::middleware('guest')->group(function () {

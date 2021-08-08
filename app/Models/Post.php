@@ -45,6 +45,17 @@ class Post extends Model
         return $this->created_at->diffForHumans();
     }
 
+    public function removeImage(string $path = null)
+    {
+        $path = $path ?? $this->thumbnail;
+
+        $fullPath = public_path("/storage/{$path}");
+
+        if (File::exists($fullPath)) {
+            File::delete($fullPath);
+        }
+    }
+
     /*
     |--------------------------------------------------------------------------
     | Scopes
@@ -100,11 +111,12 @@ class Post extends Model
     protected static function booted()
     {
         static::deleted(function ($post) {
-            // Delete thumbnail of post if the post is deleted
-            $path = public_path("/storage/{$post->thumbnail}");
+            $post->removeImage();
+        });
 
-            if (File::exists($path)) {
-                File::delete($path);
+        static::updating(function ($post) {
+            if (request()->has('thumbnail')) {
+                $post->removeImage($post->getOriginal('thumbnail'));
             }
         });
     }

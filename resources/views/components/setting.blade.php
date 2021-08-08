@@ -11,12 +11,14 @@
 
             <ul>
                 <li>
-                    <a href="#">Dashboard</a>
+                    <a href="{{ route('dashboard') }}"
+                       class="{{ request()->routeIs('dashboard') ? 'text-blue-500' : '' }} hover:text-blue-600"
+                    >Dashboard</a>
                 </li>
 
                 <li>
                     <a href="{{ route('post.create') }}"
-                       class="{{ request()->routeIs('post.create') ? 'text-blue-500' : '' }}"
+                       class="{{ request()->routeIs('post.create') ? 'text-blue-500' : '' }} hover:text-blue-600"
                     >Add Post</a>
                 </li>
             </ul>
