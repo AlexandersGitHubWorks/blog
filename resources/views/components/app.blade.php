@@ -31,13 +31,15 @@
                         <span class="text-xs font-bold uppercase">Welcome, {{ auth()->user()->name }}!</span>
                     </x-slot>
 
-                    <x-dropdown-item href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
-                        Dashboard
-                    </x-dropdown-item>
+                    @can('admin')
+                        <x-dropdown-item href="{{ route('post.index') }}" :active="request()->routeIs('dashboard')">
+                            Dashboard
+                        </x-dropdown-item>
 
-                    <x-dropdown-item href="{{ route('post.create') }}" :active="request()->routeIs('post.create')">
-                        Add Post
-                    </x-dropdown-item>
+                        <x-dropdown-item href="{{ route('post.create') }}" :active="request()->routeIs('post.create')">
+                            Add Post
+                        </x-dropdown-item>
+                    @endcan
 
                     <x-dropdown-item @click.prevent="document.getElementById('logout-form').submit()">
                         Log Out

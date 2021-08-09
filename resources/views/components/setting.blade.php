@@ -11,8 +11,8 @@
 
             <ul>
                 <li>
-                    <a href="{{ route('dashboard') }}"
-                       class="{{ request()->routeIs('dashboard') ? 'text-blue-500' : '' }} hover:text-blue-600"
+                    <a href="{{ route('post.index') }}"
+                       class="{{ request()->routeIs('post.index') ? 'text-blue-500' : '' }} hover:text-blue-600"
                     >Dashboard</a>
                 </li>
 

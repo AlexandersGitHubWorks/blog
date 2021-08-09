@@ -16,13 +16,8 @@ Route::post('/post/{post:slug}/comment', [PostCommentController::class, 'store']
     ->middleware('auth')
     ->name('comment.store');
 
-Route::prefix('/admin')->middleware('admin')->group(function () {
-    Route::get('/dashboard', [AdminPostController::class, 'index'])->name('dashboard');
-    Route::get('/post/create', [AdminPostController::class, 'create'])->name('post.create');
-    Route::post('/post/store', [AdminPostController::class, 'store'])->name('post.store');
-    Route::get('/post/{post}/edit', [AdminPostController::class, 'edit'])->name('post.edit');
-    Route::patch('/post/{post}', [AdminPostController::class, 'update'])->name('post.update');
-    Route::delete('/post/{post}', [AdminPostController::class, 'destroy'])->name('post.destroy');
+Route::middleware('can:admin')->group(function () {
+    Route::resource('admin/post', AdminPostController::class)->except('show');
 });
 
 Route::middleware('guest')->group(function () {
