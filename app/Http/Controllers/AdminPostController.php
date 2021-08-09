@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Forms\PostForm;
 use App\Models\Category;
 use App\Models\Post;
-use Illuminate\Validation\Rule;
 
 class AdminPostController extends Controller
 {
@@ -22,19 +22,9 @@ class AdminPostController extends Controller
         ]);
     }
 
-    public function store()
+    public function store(PostForm $request)
     {
-        $attributes = request()->validate([
-            "title"       => "required|string",
-            "excerpt"     => "required",
-            "body"        => "required",
-            "category_id" => ["required", Rule::exists('categories', 'id')],
-            'thumbnail'   => 'required|image',
-        ]);
-
-        $attributes['thumbnail'] = request()->file('thumbnail')->store('thumbnails');
-
-        auth()->user()->posts()->create($attributes);
+        $request->persist();
 
         return redirect()->route('home')->with('success', 'Post has been created.');
     }
@@ -47,21 +37,9 @@ class AdminPostController extends Controller
         ]);
     }
 
-    public function update(Post $post)
+    public function update(PostForm $request, Post $post)
     {
-        $attributes = request()->validate([
-            'title'       => 'required|string',
-            'excerpt'     => 'required',
-            'body'        => 'required',
-            'category_id' => ['required', Rule::exists('categories', 'id')],
-            'thumbnail'   => 'image',
-        ]);
-
-        if (request()->has('thumbnail')) {
-            $attributes['thumbnail'] = request()->file('thumbnail')->store('thumbnails');
-        }
-
-        $post->update($attributes);
+        $request->persist();
 
         return back()->with('success', 'Post has been updated.');
     }

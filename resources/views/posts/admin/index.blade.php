@@ -1,7 +1,7 @@
 <x-app>
     <x-setting heading="Manage Posts">
         <div class="overflow-x-auto">
-            <div class="min-w-screen min-h-screen bg-gray-100 flex items-center justify-center bg-gray-100 font-sans overflow-hidden">
+            <div class="min-w-screen min-h-screen bg-gray-100 flex items-center justify-center bg-gray-100 font-sans overflow-hidden rounded">
                 <div class="w-full">
                     <div class="bg-white shadow-md rounded m-2">
                         <table class="min-w-max w-full table-auto">
@@ -66,6 +66,10 @@
                             @endforeach
                             </tbody>
                         </table>
+                    </div>
+
+                    <div class="mt-4 mx-2 mb-2">
+                        {{ $posts->links() }}
                     </div>
                 </div>
             </div>
